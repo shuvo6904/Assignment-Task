@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<LoginResponseModel> call, Throwable t) {
 
-                        Toast.makeText(LoginActivity.this, "Error :", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CategoryResponseModel> call, Throwable t) {
 
-                Toast.makeText(LoginActivity.this, "Error to load category data :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
