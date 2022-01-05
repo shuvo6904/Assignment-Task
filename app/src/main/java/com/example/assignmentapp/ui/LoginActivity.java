@@ -3,15 +3,17 @@ package com.example.assignmentapp.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.assignmentapp.R;
 import com.example.assignmentapp.databinding.ActivityLoginBinding;
 import com.example.assignmentapp.model.CategoryResponseModel;
 import com.example.assignmentapp.model.LoginDataModel;
 import com.example.assignmentapp.model.LoginResponseModel;
-import com.example.assignmentapp.service.UserClient;
+import com.example.assignmentapp.network.ApiInterface;
+import com.example.assignmentapp.network.RetrofitClient;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,13 +27,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String token;
 
-    Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl("https://aadhyandashboard.in/")
-            .addConverterFactory(GsonConverterFactory.create());
-
-    Retrofit retrofit = builder.build();
-
-    UserClient userClient = retrofit.create(UserClient.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password = binding.loginPasswordId.getText().toString();
 
                 LoginDataModel loginDataModel = new LoginDataModel(mobile, password);
-                Call<LoginResponseModel> call = userClient.login(loginDataModel);
+                Call<LoginResponseModel> call = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .login(loginDataModel);
 
                 call.enqueue(new Callback<LoginResponseModel>() {
                     @Override
@@ -78,19 +76,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getCategoryResponse(String token) {
-        Call<CategoryResponseModel> call = userClient.getCategoryList(token);
+        Call<CategoryResponseModel> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getCategoryList("Bearer "+ token);
+
+
 
         call.enqueue(new Callback<CategoryResponseModel>() {
             @Override
             public void onResponse(Call<CategoryResponseModel> call, Response<CategoryResponseModel> response) {
                 if (response.isSuccessful()){
+                    Log.e("getCategoryResponse", "onResponse: " + new Gson().toJson(response.body()));
+                    Toast.makeText(LoginActivity.this, new Gson().toJson(response.body()), Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(LoginActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-
-                }
-
-                else {
-                    Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
