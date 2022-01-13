@@ -3,7 +3,9 @@ package com.example.assignmentapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -44,6 +46,22 @@ public class User {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+
+    public User(Integer id, String name, String mobile, Object email, String state, String city, String dateOfBirth, Integer status, String userType, Object emailVerifiedAt, Integer isUpdatePassword, String createdAt, String updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.mobile = mobile;
+        this.email = email;
+        this.state = state;
+        this.city = city;
+        this.dateOfBirth = dateOfBirth;
+        this.status = status;
+        this.userType = userType;
+        this.emailVerifiedAt = emailVerifiedAt;
+        this.isUpdatePassword = isUpdatePassword;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;

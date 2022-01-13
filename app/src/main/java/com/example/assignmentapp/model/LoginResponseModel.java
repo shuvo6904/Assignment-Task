@@ -3,7 +3,9 @@ package com.example.assignmentapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponseModel {
+import java.io.Serializable;
+
+public class LoginResponseModel implements Serializable {
 
     @SerializedName("data")
     @Expose
@@ -14,6 +16,12 @@ public class LoginResponseModel {
     @SerializedName("status")
     @Expose
     private Integer status;
+
+    public LoginResponseModel(Data data, String message, Integer status) {
+        this.data = data;
+        this.message = message;
+        this.status = status;
+    }
 
     public Data getData() {
         return data;

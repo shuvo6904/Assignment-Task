@@ -3,9 +3,10 @@ package com.example.assignmentapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Datum {
+public class Datum implements Serializable {
 
     @SerializedName("name")
     @Expose
@@ -16,6 +17,12 @@ public class Datum {
     @SerializedName("classes")
     @Expose
     private List<Class> classes = null;
+
+    public Datum(String name, Integer id, List<Class> classes) {
+        this.name = name;
+        this.id = id;
+        this.classes = classes;
+    }
 
     public String getName() {
         return name;

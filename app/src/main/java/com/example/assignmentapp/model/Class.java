@@ -3,7 +3,9 @@ package com.example.assignmentapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Class {
+import java.io.Serializable;
+
+public class Class implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -50,6 +52,24 @@ public class Class {
     @SerializedName("is_purchase")
     @Expose
     private Integer isPurchase;
+
+    public Class(Integer id, String name, Object image, Object banner, String price, String discount, String limitDay, Object duration, Integer categoryId, Integer createdBy, Integer updatedBy, Integer status, String createdAt, String updatedAt, Integer isPurchase) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.banner = banner;
+        this.price = price;
+        this.discount = discount;
+        this.limitDay = limitDay;
+        this.duration = duration;
+        this.categoryId = categoryId;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isPurchase = isPurchase;
+    }
 
     public Integer getId() {
         return id;
