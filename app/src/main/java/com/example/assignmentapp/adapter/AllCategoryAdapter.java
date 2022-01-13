@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignmentapp.databinding.AllCategoryListBinding;
+import com.example.assignmentapp.model.Class;
 import com.example.assignmentapp.model.Datum;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class AllCategoryAdapter extends RecyclerView.Adapter<AllCategoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull AllCategoryViewHolder holder, int position) {
         holder.setAllCateData(allCategoryData.get(position));
+        setCateItemRecycler(holder.allCategoryListBinding.categoryListRecyclerId, allCategoryData.get(position).getClasses());
 
     }
 
@@ -55,5 +57,10 @@ public class AllCategoryAdapter extends RecyclerView.Adapter<AllCategoryAdapter.
         public void setAllCateData(Datum datum) {
             allCategoryListBinding.allCategoryNameId.setText(datum.getName());
         }
+    }
+
+    private void setCateItemRecycler(RecyclerView recyclerView, List<Class> categoryItemList){
+        CategoryItemAdapter categoryItemAdapter = new CategoryItemAdapter(context, categoryItemList);
+        recyclerView.setAdapter(categoryItemAdapter);
     }
 }
