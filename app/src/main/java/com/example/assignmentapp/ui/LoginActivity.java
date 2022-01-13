@@ -2,11 +2,14 @@ package com.example.assignmentapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.assignmentapp.MainActivity;
 import com.example.assignmentapp.databinding.ActivityLoginBinding;
 import com.example.assignmentapp.model.CategoryResponseModel;
 import com.example.assignmentapp.model.LoginDataModel;
@@ -55,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(LoginActivity.this, "Token : " + response.body().getData().getToken(), Toast.LENGTH_SHORT).show();
                             token = response.body().getData().getToken();
-                            getCategoryResponse(token);
+                            saveTokenSharedPref(token);
 
                         }
                         else {
@@ -75,30 +78,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void getCategoryResponse(String token) {
-        Call<CategoryResponseModel> call = RetrofitClient
-                .getInstance()
-                .getApi()
-                .getCategoryList("Bearer "+ token);
+    private void saveTokenSharedPref(String token) {
 
+        SharedPreferences sharedPreferences = getSharedPreferences("tokenSharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("bearerToken", token);
+        editor.apply();
 
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
 
-        call.enqueue(new Callback<CategoryResponseModel>() {
-            @Override
-            public void onResponse(Call<CategoryResponseModel> call, Response<CategoryResponseModel> response) {
-                if (response.isSuccessful()){
-                    Log.e("getCategoryResponse", "onResponse: " + new Gson().toJson(response.body()));
-                    Toast.makeText(LoginActivity.this, new Gson().toJson(response.body()), Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResponseModel> call, Throwable t) {
-
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
+
 }
